@@ -53,7 +53,7 @@ class _MainScreenState
 
         currentIndex: currentIndex,
 
-        selectedItemColor: Colors.green,
+        selectedItemColor: const Color.fromARGB(255, 175, 76, 147),
 
         onTap: (index) {
           setState(() {
