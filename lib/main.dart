@@ -1,58 +1,77 @@
 import 'package:flutter/material.dart';
-import 'screens/home.dart';
-import 'screens/search.dart';
+
+import 'screens/search_screen.dart';
 import 'screens/cart.dart';
-import 'screens/map.dart';
 
 void main() {
-  runApp(const SmartRetailApp());
+  runApp(const MyApp());
 }
 
-class SmartRetailApp extends StatelessWidget {
-  const SmartRetailApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.green,
+        primarySwatch: Colors.green,
       ),
-      home: const RootScreen(),
+
+      home: const MainScreen(),
     );
   }
 }
 
-class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<RootScreen> createState() => _RootScreenState();
+  State<MainScreen> createState() =>
+      _MainScreenState();
 }
 
-class _RootScreenState extends State<RootScreen> {
-  int index = 0;
+class _MainScreenState
+    extends State<MainScreen> {
 
-  final pages = [
-    const HomeScreen(),
+  int currentIndex = 0;
+
+  final List<Widget> screens = [
     const SearchScreen(),
     const CartScreen(),
-    const MapScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[index],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
-        onDestinationSelected: (i) => setState(() => index = i),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-          NavigationDestination(icon: Icon(Icons.search), label: "Search"),
-          NavigationDestination(icon: Icon(Icons.shopping_cart), label: "Cart"),
-          NavigationDestination(icon: Icon(Icons.map), label: "Map"),
+
+      body: screens[currentIndex],
+
+      bottomNavigationBar:
+          BottomNavigationBar(
+
+        currentIndex: currentIndex,
+
+        selectedItemColor: Colors.green,
+
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+
+        items: const [
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Search",
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Cart",
+          ),
         ],
       ),
     );

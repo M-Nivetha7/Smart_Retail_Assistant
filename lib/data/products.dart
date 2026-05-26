@@ -1,10 +1,38 @@
 import '../models/product.dart';
 
-final products = [
-  Product(name: "Milk", price: 50, aisle: "A1"),
-  Product(name: "Bread", price: 40, aisle: "A2"),
-  Product(name: "Butter", price: 60, aisle: "A1"),
-  Product(name: "Rice", price: 120, aisle: "B1"),
-  Product(name: "Sugar", price: 45, aisle: "B2"),
-  Product(name: "Eggs", price: 70, aisle: "A3"),
+List<Product> products = [
+  Product(
+    name: "Milk",
+    price: 40,
+    aisle: "A2",
+    category: "Dairy",
+  ),
+
+  Product(
+    name: "Bread",
+    price: 35,
+    aisle: "B1",
+    category: "Bakery",
+  ),
+
+  Product(
+    name: "Rice",
+    price: 60,
+    aisle: "C3",
+    category: "Groceries",
+  ),
+
+  Product(
+    name: "Chocolate",
+    price: 20,
+    aisle: "D5",
+    category: "Snacks",
+  ),
+
+  Product(
+    name: "Apple Juice",
+    price: 50,
+    aisle: "E1",
+    category: "Beverages",
+  ),
 ];
