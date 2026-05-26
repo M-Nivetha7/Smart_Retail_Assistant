@@ -30,6 +30,9 @@ It helps users quickly search products, manage cart items, track expenses, and n
 
 <img width="337" height="735" alt="Screenshot 2026-05-26 at 11 56 30 AM" src="https://github.com/user-attachments/assets/7f764d17-a3d3-4b8d-aabf-87f8c2f82da2" />
 
+<img width="348" height="751" alt="Screenshot 2026-05-26 at 11 42 40 AM" src="https://github.com/user-attachments/assets/423ad919-2a50-4e49-9642-037c0661b60b" />
+
+
 
 
 # 📁 Project Structure
