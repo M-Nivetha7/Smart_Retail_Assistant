@@ -3,8 +3,16 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../data/cart.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() =>
+      _CartScreenState();
+}
+
+class _CartScreenState
+    extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -20,31 +28,65 @@ class CartScreen extends StatelessWidget {
 
       appBar: AppBar(
         backgroundColor: Colors.green,
+        elevation: 0,
 
         title: const Text(
           "🛒 My Cart",
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),
 
       body: cart.isEmpty
-          ? const Center(
-              child: Text(
-                "Cart is Empty",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+
+          // EMPTY CART UI
+          ? Center(
+              child: Column(
+                mainAxisAlignment:
+                    MainAxisAlignment.center,
+
+                children: [
+
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 100,
+                    color: Colors.grey.shade400,
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  const Text(
+                    "Your Cart is Empty",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  Text(
+                    "Add products to continue shopping",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
               ),
             )
 
+          // CART ITEMS UI
           : Column(
               children: [
 
                 Expanded(
                   child: ListView.builder(
+                    padding:
+                        const EdgeInsets.all(12),
+
                     itemCount: cart.length,
 
                     itemBuilder:
@@ -52,54 +94,105 @@ class CartScreen extends StatelessWidget {
 
                       final item = cart[index];
 
-                      return Card(
+                      return Container(
                         margin:
-                            const EdgeInsets.all(
-                                10),
+                            const EdgeInsets.only(
+                          bottom: 14,
+                        ),
 
-                        shape:
-                            RoundedRectangleBorder(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+
                           borderRadius:
-                              BorderRadius
-                                  .circular(
-                                      16),
+                              BorderRadius.circular(
+                                  20),
+
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Colors.grey.shade300,
+                              blurRadius: 8,
+                              offset:
+                                  const Offset(0, 4),
+                            ),
+                          ],
                         ),
 
                         child: ListTile(
 
+                          contentPadding:
+                              const EdgeInsets.all(
+                                  14),
+
                           leading: CircleAvatar(
+                            radius: 28,
                             backgroundColor:
-                                Colors.green
-                                    .shade100,
+                                Colors.green.shade100,
 
                             child: const Icon(
-                              Icons
-                                  .shopping_bag,
-                              color:
-                                  Colors.green,
+                              Icons.shopping_bag,
+                              color: Colors.green,
+                              size: 28,
                             ),
                           ),
 
                           title: Text(
                             item.name,
+
+                            style: const TextStyle(
+                              fontWeight:
+                                  FontWeight.bold,
+                              fontSize: 18,
+                            ),
                           ),
 
-                          subtitle: Text(
-                            "₹${item.price}",
+                          subtitle: Padding(
+                            padding:
+                                const EdgeInsets.only(
+                                    top: 6),
+
+                            child: Text(
+                              "₹${item.price}",
+
+                              style: TextStyle(
+                                color: Colors.grey
+                                    .shade700,
+
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
 
                           trailing: IconButton(
                             icon: const Icon(
                               Icons.delete,
                               color: Colors.red,
+                              size: 28,
                             ),
 
                             onPressed: () {
-                              cart.removeAt(
-                                  index);
 
-                              (context as Element)
-                                  .markNeedsBuild();
+                              if (cart.isNotEmpty &&
+                                  index <
+                                      cart.length) {
+
+                                setState(() {
+                                  cart.removeAt(index);
+                                });
+
+                                ScaffoldMessenger.of(
+                                        context)
+                                    .showSnackBar(
+                                  SnackBar(
+                                    backgroundColor:
+                                        Colors.red,
+
+                                    content: Text(
+                                      "${item.name} removed",
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                           ),
                         ),
@@ -108,29 +201,23 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
 
-                // TOTAL SECTION
+                // PAYMENT SECTION
                 Container(
-                  padding:
-                      const EdgeInsets.all(20),
+                  width: double.infinity,
 
-                  decoration: BoxDecoration(
+                  padding:
+                      const EdgeInsets.all(22),
+
+                  decoration: const BoxDecoration(
                     color: Colors.white,
 
                     borderRadius:
-                        const BorderRadius.only(
+                        BorderRadius.only(
                       topLeft:
-                          Radius.circular(25),
+                          Radius.circular(30),
                       topRight:
-                          Radius.circular(25),
+                          Radius.circular(30),
                     ),
-
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            Colors.grey.shade300,
-                        blurRadius: 10,
-                      ),
-                    ],
                   ),
 
                   child: Column(
@@ -147,7 +234,7 @@ class CartScreen extends StatelessWidget {
                             "Total Amount",
 
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 24,
                               fontWeight:
                                   FontWeight.bold,
                             ),
@@ -157,7 +244,7 @@ class CartScreen extends StatelessWidget {
                             "₹${total.toStringAsFixed(0)}",
 
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 28,
                               color: Colors.green,
                               fontWeight:
                                   FontWeight.bold,
@@ -180,50 +267,89 @@ class CartScreen extends StatelessWidget {
 
                       const SizedBox(height: 20),
 
-                      QrImageView(
-                        data:
-                            "upi://pay?pa=smartcart@upi&pn=SmartShoppingCart&am=$total",
+                      Container(
+                        padding:
+                            const EdgeInsets.all(12),
 
-                        size: 220,
-                      ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
 
-                      const SizedBox(height: 20),
+                          borderRadius:
+                              BorderRadius.circular(
+                                  20),
 
-                      ElevatedButton(
-                        style:
-                            ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.green,
-
-                          padding:
-                              const EdgeInsets
-                                  .symmetric(
-                            horizontal: 40,
-                            vertical: 14,
-                          ),
-                        ),
-
-                        onPressed: () {
-                          ScaffoldMessenger.of(
-                                  context)
-                              .showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                "Payment Successful",
-                              ),
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Colors.grey.shade300,
+                              blurRadius: 8,
                             ),
-                          );
-                        },
+                          ],
+                        ),
 
-                        child: const Text(
-                          "Complete Payment",
+                        child: QrImageView(
+                          data:
+                              "upi://pay?pa=smartcart@upi&pn=SmartShoppingCart&am=$total",
 
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                          version:
+                              QrVersions.auto,
+
+                          size: 220,
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 55,
+
+                        child: ElevatedButton(
+
+                          style:
+                              ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.green,
+
+                            shape:
+                                RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius
+                                      .circular(
+                                          18),
+                            ),
+                          ),
+
+                          onPressed: () {
+
+                            ScaffoldMessenger.of(
+                                    context)
+                                .showSnackBar(
+                              const SnackBar(
+                                backgroundColor:
+                                    Colors.green,
+
+                                content: Text(
+                                  "Payment Successful",
+                                ),
+                              ),
+                            );
+                          },
+
+                          child: const Text(
+                            "Complete Payment",
+
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight:
+                                  FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
+
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
