@@ -79,7 +79,7 @@ Smart_Retail_Assistant/
 ├── pubspec.lock
 └── README.md
 
-
+```
 ---
 
 ## ⚙️ Setup Instructions
@@ -106,6 +106,8 @@ source venv/bin/activate
 
 pip install flask
 python app.py
+```
+
 📱 Supported Platforms
 📱 Android Emulator
 🌐 Web (Chrome)
